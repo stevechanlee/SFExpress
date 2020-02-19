@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SFExpress.Models;
@@ -11,36 +10,23 @@ namespace SFExpress.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly ILogger<EmployeeController> _logger;
+        private readonly EmployeeDataAccessLayer _dataAccessLayer;
 
-        public EmployeeController(ILogger<EmployeeController> logger)
+        public EmployeeController()
         {
-            _logger = logger;
+            _dataAccessLayer = new EmployeeDataAccessLayer();
         }
 
-        public IActionResult Privacy()
+        public ActionResult List()
         {
-            return View();
+            List<Employee> employees = _dataAccessLayer.GetAllEmployee();
+            foreach (var emp in employees)
+            {
+                List<Task> tasks = _dataAccessLayer.GetAllTasks(emp.EmployeeId);
+                emp.Task = tasks;
+            }
+
+            return View(employees);
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-        EmployeeDataAccessLayer objemployee = new EmployeeDataAccessLayer();
-
-        //[HttpGet]
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-        //public IActionResult Index()
-        //{
-        //    List<Employee> lstEmployee = new List<Employee>();
-        //    lstEmployee = objemployee.GetAllEmployee().ToList();
-
-        //    return View(lstEmployee);
-        //}
     }
 }

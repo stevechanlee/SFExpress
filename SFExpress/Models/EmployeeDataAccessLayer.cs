@@ -41,6 +41,7 @@ namespace SFExpress.Models
                         employeeList.Add(employee);
                     }
                 }
+                conn.Close();
             }
             return employeeList;
         }
@@ -60,6 +61,7 @@ namespace SFExpress.Models
                 {
                     employee = GetEmployeeMapper(reader);
                 }
+                conn.Close();
             }
             return employee;
         }
@@ -106,6 +108,8 @@ namespace SFExpress.Models
 
                 cmd.ExecuteNonQuery();
 
+                conn.Close();
+
                 return (int)idParam.Value;
             }
         }
@@ -147,6 +151,8 @@ namespace SFExpress.Models
                 cmd.Parameters.AddWithValue("@Tasks", taskTable);
 
                 cmd.ExecuteNonQuery();
+                
+                conn.Close();
             }
         }
         public void DeleteEmployee(int id)
@@ -164,6 +170,8 @@ namespace SFExpress.Models
                 cmd.Parameters.AddWithValue("@Id", id);
 
                 cmd.ExecuteNonQuery();
+
+                conn.Close();
             }
         }
         private static Employee GetEmployeeMapper(IDataReader reader)
@@ -215,6 +223,7 @@ namespace SFExpress.Models
                         taskList.Add(task);
                     }
                 }
+                conn.Close();
             }
             return taskList;
         }
@@ -238,6 +247,7 @@ namespace SFExpress.Models
                     task.StartTime = reader.GetDateTime(index++);
                     task.Deadline = reader.GetDateTime(index++);
                 }
+                conn.Close();
             }
             return task;
         }
@@ -262,6 +272,8 @@ namespace SFExpress.Models
 
                 cmd.ExecuteNonQuery();
 
+                conn.Close();
+
                 return (int)idParam.Value;
             }
         }
@@ -283,6 +295,8 @@ namespace SFExpress.Models
                 cmd.Parameters.AddWithValue("@Deadline", model.Deadline);
 
                 cmd.ExecuteNonQuery();
+
+                conn.Close();
             }
         }
         public void DeleteTask(int id)
@@ -300,6 +314,8 @@ namespace SFExpress.Models
                 cmd.Parameters.AddWithValue("@Id", id);
 
                 cmd.ExecuteNonQuery();
+
+                conn.Close();
             }
         }
         #endregion
